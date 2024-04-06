@@ -57,9 +57,10 @@ public:
 
     pixel get_pixel(uint32_t col, uint32_t row) const;
 
-    size_t num_cols() const;
+    // Get number of rows and columns
+    size_t cols() const;
 
-    size_t num_rows() const;
+    size_t rows() const;
 
     // MUTATORS
 

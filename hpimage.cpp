@@ -63,17 +63,17 @@ Hpimage::Hpimage(const char *filename) {
 
 // ACCESSORS
 
-size_t Hpimage::num_cols() const {
+size_t Hpimage::cols() const {
     return current_cols;
 }
 
-size_t Hpimage::num_rows() const {
+size_t Hpimage::rows() const {
     return current_rows;
 }
 
 pixel Hpimage::get_pixel(uint32_t col, uint32_t row) const {
-    assert(col >= 0 && col < num_cols());
-    assert(row >= 0 && row < num_rows());
+    assert(col >= 0 && col < cols());
+    assert(row >= 0 && row < rows());
 
     return pixels[row * base_rows + col];
 }
@@ -81,9 +81,8 @@ pixel Hpimage::get_pixel(uint32_t col, uint32_t row) const {
 // MUTATORS
 
 void Hpimage::set_pixel(uint32_t col, uint32_t row, hpimage::pixel p) {
-    assert(col >= 0 && col < num_cols());
-    assert(row >= 0 && row < num_rows());
-
+    assert(col >= 0 && col < cols());
+    assert(row >= 0 && row < rows());
     pixels[row * base_rows + col] = p;
 }
 

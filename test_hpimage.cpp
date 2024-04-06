@@ -5,8 +5,8 @@ TEST(hpimage, load) {
     auto image = hpimage::Hpimage("3x4.ppm");
     image.write_image("test.ppm");
     auto new_image = hpimage::Hpimage("test.ppm");
-    ASSERT_EQ(new_image.num_cols(), image.num_cols());
-    ASSERT_EQ(new_image.num_rows(), image.num_rows());
+    ASSERT_EQ(new_image.cols(), image.cols());
+    ASSERT_EQ(new_image.rows(), image.rows());
 }
 
 TEST(hpimage, modify) {
@@ -24,8 +24,8 @@ TEST(hpimage, modify) {
     image.write_image("test2.ppm");
 
     auto expected = hpimage::Hpimage("test2.ppm");
-    ASSERT_EQ(2, expected.num_cols());
-    ASSERT_EQ(2, expected.num_rows());
+    ASSERT_EQ(2, expected.cols());
+    ASSERT_EQ(2, expected.rows());
 
     auto new_pixel = expected.get_pixel(0, 0);
     // Modified pixel should be written out as change.
