@@ -14,10 +14,10 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_library(HPImage STATIC
+add_library(hpimage STATIC
         hpimage.h
         hpimage.cpp
 )
 
 add_executable(tests test_hpimage.cpp)
-target_link_libraries(tests GTest::gtest_main HPImage)
+target_link_libraries(tests GTest::gtest_main hpimage)
