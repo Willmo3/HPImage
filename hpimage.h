@@ -55,13 +55,15 @@ public:
 
     // ACCCESSORS
 
-    pixel *get_pixels() const;
+    pixel get_pixel(uint32_t col, uint32_t row) const;
 
     size_t num_cols() const;
 
     size_t num_rows() const;
 
     // MUTATORS
+
+    void set_pixel(uint32_t col, uint32_t row, pixel p);
     // These reduce width, height by one for SeamCarving
     // Note: these will fail if their relevant fields would be reduced to zero.
 

@@ -71,11 +71,21 @@ size_t Hpimage::num_rows() const {
     return current_rows;
 }
 
-pixel *Hpimage::get_pixels() const {
-    return pixels;
+pixel Hpimage::get_pixel(uint32_t col, uint32_t row) const {
+    assert(col >= 0 && col < num_cols());
+    assert(row >= 0 && row < num_rows());
+
+    return pixels[row * base_rows + col];
 }
 
 // MUTATORS
+
+void Hpimage::set_pixel(uint32_t col, uint32_t row, hpimage::pixel p) {
+    assert(col >= 0 && col < num_cols());
+    assert(row >= 0 && row < num_rows());
+
+    pixels[row * base_rows + col] = p;
+}
 
 void Hpimage::cut_col() {
     // Program invariant: height must be greater than one if cut.

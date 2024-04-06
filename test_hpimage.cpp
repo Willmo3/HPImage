@@ -12,10 +12,11 @@ TEST(hpimage, load) {
 TEST(hpimage, modify) {
     auto image = hpimage::Hpimage("3x4.ppm");
 
-    auto *pixel = image.get_pixels();
-    pixel->red = 0;
-    pixel->blue = 0;
-    pixel->green = 0;
+    auto pixel = image.get_pixel(0, 0);
+    pixel.red = 0;
+    pixel.blue = 0;
+    pixel.green = 0;
+    image.set_pixel(0, 0, pixel);
     image.cut_col();
     image.cut_row();
     image.cut_row();
@@ -26,14 +27,16 @@ TEST(hpimage, modify) {
     ASSERT_EQ(2, expected.num_cols());
     ASSERT_EQ(2, expected.num_rows());
 
-    auto *new_pixels = expected.get_pixels();
+    auto new_pixel = expected.get_pixel(0, 0);
     // Modified pixel should be written out as change.
-    ASSERT_EQ(0, new_pixels->red);
-    ASSERT_EQ(0, new_pixels->blue);
-    ASSERT_EQ(0, new_pixels->green);
+    ASSERT_EQ(0, new_pixel.red);
+    ASSERT_EQ(0, new_pixel.blue);
+    ASSERT_EQ(0, new_pixel.green);
 
     // Unmodified pixels should be unaffected by width resizing.
-    ASSERT_EQ(pixel[1].red, new_pixels[1].red);
-    ASSERT_EQ(pixel[1].blue, new_pixels[1].blue);
-    ASSERT_EQ(pixel[1].green, new_pixels[1].green);
+    auto next_pixel = image.get_pixel(1, 0);
+    auto next_new_pixel = expected.get_pixel(1, 0);
+    ASSERT_EQ(next_pixel.red, next_new_pixel.red);
+    ASSERT_EQ(next_pixel.blue, next_new_pixel.blue);
+    ASSERT_EQ(next_pixel.green, next_new_pixel.green);
 }
