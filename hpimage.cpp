@@ -131,6 +131,4 @@ void Hpimage::write_image(const char *filename) const {
 
     fclose(fout);
 }
-
-
 }
