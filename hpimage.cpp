@@ -21,20 +21,22 @@ Hpimage::Hpimage(const char *filename) {
     /* ImageMagick may produce an extra line when converting the image to a PPM.
      * We first check to see if we find the two integer pattern. If it is not found, then we
      * assume the line exists and ignore it. */
-    if (fscanf(fin, "%d %d\n", &base_width, &base_height) != 2) {
-        if (fscanf(fin, "%*s\n%d %d\n", &base_width, &base_height) != 2) {
+
+    // Height == num rows in image.
+    if (fscanf(fin, "%d %d\n", &base_cols, &base_rows) != 2) {
+        if (fscanf(fin, "%*s\n%d %d\n", &base_cols, &base_rows) != 2) {
             std::cerr << "ERROR: reading width/height" << std::endl;
             exit(EXIT_FAILURE);
         }
     }
 
-    if (base_width < 1 || base_height < 1) {
+    if (base_cols < 1 || base_rows < 1) {
         std::cerr << "ERROR: Malformed image, width too small" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    current_width = base_width;
-    current_height = base_height;
+    current_cols = base_cols;
+    current_rows = base_rows;
 
     if (fscanf(fin, "%hd\n", &max_value) != 1) {
         std::cerr << "ERROR: reading maximum value" << std::endl;
@@ -42,7 +44,7 @@ Hpimage::Hpimage(const char *filename) {
     }
 
     // Allocate room for the pixels in the image.
-    uint64_t num_pixels = base_width * base_height;
+    uint64_t num_pixels = base_cols * base_rows;
     pixels = static_cast<pixel *>(calloc(sizeof(pixel), num_pixels));
 
     // Local temporary variables
@@ -61,26 +63,26 @@ Hpimage::Hpimage(const char *filename) {
 
 // ACCESSORS
 
-size_t Hpimage::get_width() const {
-    return current_width;
+size_t Hpimage::num_cols() const {
+    return current_cols;
 }
 
-size_t Hpimage::get_height() const {
-    return current_height;
+size_t Hpimage::num_rows() const {
+    return current_rows;
 }
 
 // MUTATORS
 
-void Hpimage::cut_height() {
+void Hpimage::cut_col() {
     // Program invariant: height must be greater than one if cut.
-    assert(current_height > 1);
-    current_height -= 1;
+    assert(current_cols > 1);
+    current_cols -= 1;
 }
 
-void Hpimage::cut_width() {
+void Hpimage::cut_row() {
     // Program invariant: width must be greater than one if cut.
-    assert(current_width > 1);
-    current_width -= 1;
+    assert(current_rows > 1);
+    current_rows -= 1;
 }
 
 /**
@@ -97,7 +99,7 @@ void Hpimage::write_image(const char *filename) const {
         std::cerr << "ERROR: writing magic number" << std::endl;
         exit(EXIT_FAILURE);
     }
-    if (fprintf(fout, "%d %d\n", current_width, current_height) < 0) {
+    if (fprintf(fout, "%d %d\n", current_cols, current_rows) < 0) {
         std::cerr << "ERROR: writing width/height" << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -106,31 +108,24 @@ void Hpimage::write_image(const char *filename) const {
         exit(EXIT_FAILURE);
     }
 
-    auto pix_count = 0;
-
     // the current/base width dichotomy allows the image to logically shrink
     // without reallocating the base pixel buffer.
     // We simply "skip" pixels past current width/height
-    for (auto i = 0; i < current_width; ++i) {
-        for (auto j = 0; j < current_height; ++j) {
+    for (auto i = 0; i < current_rows; ++i) {
+        for (auto j = 0; j < current_cols; ++j) {
             // But for each row, we skip through base_width pixels.
-            pixel current = pixels[i * base_width + j];
-
-            // Add newlines for every 60 pixels written.
-            if (pix_count % MAX_PIXELS_PER_LINE == 0) {
-                if (fprintf(fout, "\n") < 0) {
-                    std::cerr << "ERROR: writing maximum value" << std::endl;
-                    exit(EXIT_FAILURE);
-                }
-            }
-
+            // Subtract one for zero index
+            pixel current = pixels[i * (base_rows -1) + j];
             if (fprintf(fout, "%hu %hu %hu ",
                         current.red, current.green, current.blue) < 0) {
                 std::cerr << "ERROR: writing pixel value" << std::endl;
                 exit(EXIT_FAILURE);
             }
-
-            ++pix_count;
+        }
+        // To comply with ImageMagick strategy, print newline after each row.
+        if (fprintf(fout, "\n") < 0) {
+            std::cerr << "ERROR: writing newline" << std::endl;
+            exit(EXIT_FAILURE);
         }
     }
 

@@ -35,11 +35,11 @@ private:
     // All ppm files should start with magic number p6
     char magic[4];
     // Base dimensions of image loaded from memory
-    uint32_t base_width;
-    uint32_t base_height;
+    uint32_t base_cols;
+    uint32_t base_rows;
     // Current dimensions after shrinking
-    uint32_t current_width;
-    uint32_t current_height;
+    uint32_t current_cols;
+    uint32_t current_rows;
     // Maximum RGB value present in image
     uint16_t max_value;
     // Collection of all pixels in the image.
@@ -57,17 +57,17 @@ public:
 
     pixel *get_pixels() const;
 
-    size_t get_width() const;
+    size_t num_cols() const;
 
-    size_t get_height() const;
+    size_t num_rows() const;
 
     // MUTATORS
     // These reduce width, height by one for SeamCarving
     // Note: these will fail if their relevant fields would be reduced to zero.
 
-    void cut_width();
+    void cut_row();
 
-    void cut_height();
+    void cut_col();
 
     // FS manipulators
 
