@@ -71,6 +71,10 @@ size_t Hpimage::num_rows() const {
     return current_rows;
 }
 
+pixel *Hpimage::get_pixels() const {
+    return pixels;
+}
+
 // MUTATORS
 
 void Hpimage::cut_col() {
