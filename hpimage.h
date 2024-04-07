@@ -53,6 +53,12 @@ public:
      */
     Hpimage(const char *filename);
 
+    /**
+     * Hpimage destructor.
+     * Frees heap resources (i.e. pixels buffer)
+     */
+    ~Hpimage();
+
     // ACCCESSORS
 
     pixel get_pixel(uint32_t col, uint32_t row) const;

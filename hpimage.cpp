@@ -61,6 +61,14 @@ Hpimage::Hpimage(const char *filename) {
     fclose(fin);
 }
 
+/**
+ * Hpimage destructor. Free image pixel buffer.
+ */
+Hpimage::~Hpimage() {
+    free(pixels);
+    pixels = nullptr;
+}
+
 // ACCESSORS
 
 size_t Hpimage::cols() const {
