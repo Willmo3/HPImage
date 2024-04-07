@@ -75,7 +75,8 @@ pixel Hpimage::get_pixel(uint32_t col, uint32_t row) const {
     assert(col >= 0 && col < cols());
     assert(row >= 0 && row < rows());
 
-    return pixels[row * base_rows + col];
+    // Stride: skip through all the columns of previous rows.
+    return pixels[row * base_cols + col];
 }
 
 // MUTATORS
@@ -83,7 +84,7 @@ pixel Hpimage::get_pixel(uint32_t col, uint32_t row) const {
 void Hpimage::set_pixel(uint32_t col, uint32_t row, hpimage::pixel p) {
     assert(col >= 0 && col < cols());
     assert(row >= 0 && row < rows());
-    pixels[row * base_rows + col] = p;
+    pixels[row * base_cols + col] = p;
 }
 
 void Hpimage::cut_col() {
