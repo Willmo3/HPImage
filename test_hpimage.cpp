@@ -40,3 +40,19 @@ TEST(hpimage, modify) {
     ASSERT_EQ(next_pixel.blue, next_new_pixel.blue);
     ASSERT_EQ(next_pixel.green, next_new_pixel.green);
 }
+
+TEST(hpimage, stride) {
+    // Ensure that image stride works past the first row
+    auto image = hpimage::Hpimage("3x4.ppm");
+
+    auto pixel = image.get_pixel(2, 3);
+    ASSERT_EQ(255, pixel.red);
+    ASSERT_EQ(255, pixel.green);
+    ASSERT_EQ(255, pixel.blue);
+
+    auto previous = image.get_pixel(1, 3);
+    image.set_pixel(2, 3, previous);
+    
+    pixel = image.get_pixel(2, 3);
+    ASSERT_EQ(153, pixel.blue);
+}
