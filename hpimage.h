@@ -87,6 +87,6 @@ public:
     void write_image(const char *filename) const;
 };
 
-} // End Hpimage namespace
+} // namespace hpimage
 
 #endif //HPIMAGE_HPIMAGE_H
