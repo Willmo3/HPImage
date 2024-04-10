@@ -137,7 +137,7 @@ void Hpimage::write_image(const char *filename) const {
         for (auto j = 0; j < current_cols; ++j) {
             // But for each row, we skip through base_width pixels.
             // Subtract one for zero index
-            pixel current = pixels[i * (base_rows -1) + j];
+            pixel current = pixels[i * base_cols + j];
             if (fprintf(fout, "%hu %hu %hu ",
                         current.red, current.green, current.blue) < 0) {
                 std::cerr << "ERROR: writing pixel value" << std::endl;
