@@ -17,7 +17,7 @@ Hpimage::Hpimage() {
 }
 
 pixel *Hpimage::alloc(uint32_t size) {
-    return static_cast<pixel *>(malloc(size));
+    return static_cast<pixel *>(calloc(size, 1));
 }
 
 // Hpimage constructor. Reads from file.
