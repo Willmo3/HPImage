@@ -53,7 +53,7 @@ protected:
      * @param size size of new memory region.
      * @return A pointer to a memory region of size size.
      */
-    pixel *alloc(uint32_t size);
+    static pixel *alloc(uint32_t size);
 
 public:
     /**
@@ -67,7 +67,7 @@ public:
      * This should read in all relevant fields from file.
      * @param filename Name of file to read from
      */
-    Hpimage(const char *filename);
+    explicit Hpimage(const char *filename);
 
     /**
      * Hpimage destructor.

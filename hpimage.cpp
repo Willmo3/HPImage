@@ -8,7 +8,7 @@ namespace hpimage {
 Hpimage::Hpimage() {
     base_cols = 0;
     base_rows = 0;
-    
+
     current_cols = 0;
     current_rows = 0;
     max_value = 0;
