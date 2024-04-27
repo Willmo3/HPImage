@@ -46,6 +46,15 @@ protected:
     // Collection of all pixels in the image.
     pixel *pixels;
 
+    /**
+     * Allocation helper. Used in constructor to generate memory.
+     * Can be overriden in CUDA extensions, for example.
+     *
+     * @param size size of new memory region.
+     * @return A pointer to a memory region of size size.
+     */
+    pixel *alloc(uint32_t size);
+
 public:
     /**
      * Default Hpimage constructor.

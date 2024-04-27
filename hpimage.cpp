@@ -16,6 +16,10 @@ Hpimage::Hpimage() {
     pixels = nullptr;
 }
 
+pixel *Hpimage::alloc(uint32_t size) {
+    return static_cast<pixel *>(malloc(size));
+}
+
 // Hpimage constructor. Reads from file.
 Hpimage::Hpimage(const char *filename) {
     FILE *fin = fopen(filename, "r");
@@ -57,7 +61,7 @@ Hpimage::Hpimage(const char *filename) {
 
     // Allocate room for the pixels in the image.
     uint64_t num_pixels = base_cols * base_rows;
-    pixels = static_cast<pixel *>(calloc(sizeof(pixel), num_pixels));
+    pixels = alloc(sizeof(pixel) * num_pixels);
 
     // Local temporary variables
     auto pix_count = 0;
