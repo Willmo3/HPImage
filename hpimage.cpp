@@ -4,6 +4,18 @@
 
 namespace hpimage {
 
+// Default constructor
+Hpimage::Hpimage() {
+    base_cols = 0;
+    base_rows = 0;
+    
+    current_cols = 0;
+    current_rows = 0;
+    max_value = 0;
+
+    pixels = nullptr;
+}
+
 // Hpimage constructor. Reads from file.
 Hpimage::Hpimage(const char *filename) {
     FILE *fin = fopen(filename, "r");

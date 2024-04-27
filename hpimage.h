@@ -31,7 +31,8 @@ struct pixel {
 
 class Hpimage {
 
-private:
+// For now, making all fields protected to allow easy access
+protected:
     // All ppm files should start with magic number p6
     char magic[4];
     // Base dimensions of image loaded from memory
@@ -46,6 +47,12 @@ private:
     pixel *pixels;
 
 public:
+    /**
+     * Default Hpimage constructor.
+     * Allows for subclassing.
+     */
+    Hpimage();
+
     /**
      * Hpimage constructor.
      * This should read in all relevant fields from file.
