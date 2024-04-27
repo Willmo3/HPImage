@@ -53,7 +53,7 @@ protected:
      * @param size size of new memory region.
      * @return A pointer to a memory region of size size.
      */
-    static pixel *alloc(uint32_t size);
+    virtual pixel *alloc(uint32_t size);
 
 public:
     /**
