@@ -4,6 +4,10 @@
 
 namespace hpimage {
 
+pixel *mem(uint32_t size) {
+    return static_cast<pixel *>(calloc(size, 1));
+}
+
 // Default constructor
 Hpimage::Hpimage() {
     base_cols = 0;
@@ -16,12 +20,11 @@ Hpimage::Hpimage() {
     pixels = nullptr;
 }
 
-pixel *Hpimage::alloc(uint32_t size) {
-    return static_cast<pixel *>(calloc(size, 1));
-}
+// Use default calloc allocator.
+Hpimage::Hpimage(const char *filename): Hpimage(filename, mem) {}
 
 // Hpimage constructor. Reads from file.
-Hpimage::Hpimage(const char *filename) {
+Hpimage::Hpimage(const char *filename, const std::function<pixel *(uint32_t)>& alloc) {
     FILE *fin = fopen(filename, "r");
     if (!fin) {
         std::cerr << "ERROR: could not open " << filename << std::endl;

@@ -12,6 +12,7 @@
  */
 #include <cstdint>
 #include <cstddef>
+#include <functional>
 
 namespace hpimage {
 
@@ -47,13 +48,14 @@ protected:
     pixel *pixels;
 
     /**
-     * Allocation helper. Used in constructor to generate memory.
-     * Can be overriden in CUDA extensions, for example.
+     * Hpimage allocator constructor.
+     * Build an Hpimage using user defined allocation function.
+     * Only available in subclasses -- allows CUDA extension
      *
-     * @param size size of new memory region.
-     * @return A pointer to a memory region of size size.
+     * @param filename Name of file to grab resources from
+     * @param alloc Allocator function
      */
-    virtual pixel *alloc(uint32_t size);
+    Hpimage(const char *filename, const std::function<pixel *(uint32_t)>& alloc);
 
 public:
     /**
