@@ -152,11 +152,11 @@ void Hpimage::write_image(const char *filename) const {
     // the current/base width dichotomy allows the image to logically shrink
     // without reallocating the base pixel buffer.
     // We simply "skip" pixels past current width/height
-    for (auto i = 0; i < current_rows; ++i) {
-        for (auto j = 0; j < current_cols; ++j) {
+    for (auto row = 0; row < current_rows; ++row) {
+        for (auto col = 0; col < current_cols; ++col) {
             // But for each row, we skip through base_width pixels.
             // Subtract one for zero index
-            pixel current = pixels[i * base_cols + j];
+            pixel current = get_pixel(col, row);
             if (fprintf(fout, "%hu %hu %hu ",
                         current.red, current.green, current.blue) < 0) {
                 std::cerr << "ERROR: writing pixel value" << std::endl;
