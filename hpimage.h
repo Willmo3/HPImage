@@ -74,8 +74,10 @@ public:
     /**
      * Hpimage destructor.
      * Frees heap resources (i.e. pixels buffer)
+     *
+     * Dynamically dispatched
      */
-    ~Hpimage();
+    virtual ~Hpimage();
 
     // ACCCESSORS
 
