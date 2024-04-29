@@ -84,8 +84,11 @@ Hpimage::Hpimage(const char *filename, const std::function<pixel *(uint32_t)>& a
  * Hpimage destructor. Free image pixel buffer.
  */
 Hpimage::~Hpimage() {
-    free(pixels);
-    pixels = nullptr;
+    // Note: possible that subclass has already freed pixels.
+    if (pixels) {
+        free(pixels);
+        pixels = nullptr;
+    }
 }
 
 // ACCESSORS
