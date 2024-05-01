@@ -37,11 +37,11 @@ protected:
     // All ppm files should start with magic number p6
     char magic[4];
     // Base dimensions of image loaded from memory
-    uint32_t base_cols;
-    uint32_t base_rows;
+    size_t base_cols;
+    size_t base_rows;
     // Current dimensions after shrinking
-    uint32_t current_cols;
-    uint32_t current_rows;
+    size_t current_cols;
+    size_t current_rows;
     // Maximum RGB value present in image
     uint16_t max_value;
     // Collection of all pixels in the image.

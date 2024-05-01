@@ -42,8 +42,8 @@ Hpimage::Hpimage(const char *filename, const std::function<pixel *(uint32_t)>& a
      * assume the line exists and ignore it. */
 
     // Height == num rows in image.
-    if (fscanf(fin, "%d %d\n", &base_cols, &base_rows) != 2) {
-        if (fscanf(fin, "%*s\n%d %d\n", &base_cols, &base_rows) != 2) {
+    if (fscanf(fin, "%zd %zd\n", &base_cols, &base_rows) != 2) {
+        if (fscanf(fin, "%*s\n%zd %zd\n", &base_cols, &base_rows) != 2) {
             std::cerr << "ERROR: reading width/height" << std::endl;
             exit(EXIT_FAILURE);
         }
@@ -143,7 +143,7 @@ void Hpimage::write_image(const char *filename) const {
         std::cerr << "ERROR: writing magic number" << std::endl;
         exit(EXIT_FAILURE);
     }
-    if (fprintf(fout, "%d %d\n", current_cols, current_rows) < 0) {
+    if (fprintf(fout, "%zu %zu\n", current_cols, current_rows) < 0) {
         std::cerr << "ERROR: writing width/height" << std::endl;
         exit(EXIT_FAILURE);
     }
